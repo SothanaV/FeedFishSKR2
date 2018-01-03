@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% load static %} {% block content %}{% load widget_tweaks %}
+<div class="navigation">
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="navbar-header nav_2">
+                    <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                     <ul class="nav navbar-nav">
+                        <li class="active"><a href="{% url "home"%}" class="act">HoME</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+  <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Serway</h3>
+                    </div>
+                    <div class="panel-body">
+                        
+                            
+                                <form action="http://localhost:5001/home">
+                                    <button type="submit" class="btn btn-lg btn-success btn-block" value="go" > RealTimeGraph</button>
+                                </form>
+                                <form action="http://localhost:9999/serway/graph">
+                                    <button type="submit" class="btn btn-lg btn-success btn-block" value="go" > Graph</button>
+                                </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">control</h3>
+                    </div>
+                    <div class="panel-body">
+                                <form action="http://localhost:5001/control">
+                                    <button type="submit" class="btn btn-lg btn-success btn-block" value="go" > control NO:1</button>
+                                </form>
+                                <form action="http://localhost:5001/control2">
+                                    <button type="submit" class="btn btn-lg btn-success btn-block" value="go" > control NO:2</button>
+                                </form>
+                                <form action="http://localhost:5001/control3">
+                                    <button type="submit" class="btn btn-lg btn-success btn-block" value="go" > control NO:3</button>
+                                </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %} {% block script %} {% endblock script %}
