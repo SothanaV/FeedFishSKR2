@@ -27,10 +27,10 @@ def C2S(data):
 	ComP = int(sdata['P'])
 	print("solinoid %s"%(ComP))
 	if (ComP == 1):
-		Pump = "1"
+		Mode = "1"
 		print ("Solinoid_ON")
 	if(ComP == 0):
-		Pump = "0"
+		Mode = "0"
 		print ("Solinoid_OFF")
 
 @app.route("/admin")
