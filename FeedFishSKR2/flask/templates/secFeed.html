@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>FeedFishSKR</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+  <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='raphael-min.js') }}"></script>
+<script src="{{ url_for('static', filename='jquery-1.8.2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='socket.io-1.2.0.js') }}"></script>
+</head>
+<style>
+.switch 
+{
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider 
+{
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before 
+{
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider 
+{
+  background-color: #3399ff;
+
+}
+
+input:focus + .slider 
+{
+  box-shadow: 0 0 1px #3399ff;
+
+}
+
+input:checked + .slider:before 
+{
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  
+}
+
+/* Rounded sliders */
+.slider.round 
+{
+  border-radius: 34px;
+}
+
+.slider.round:before 
+{
+  border-radius: 50%;
+}
+
+</style>
+
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Control FishFeed</h1>  
+</div>
+  
+<div class="container">
+  <div class="row">
+    <div id="Control" class="col-sm-12">
+    <h1 style="text-align:center";> Control </h1>
+    <div>
+      <h2 style="text-align:center";> Feed 
+        <label class="switch">
+           <input type="checkbox"  id="P" value="OFF" style="color:blue" onclick="toggle(this);">
+              <div class="slider round" ></div>
+              
+    </div>
+    <br>
+    <br>
+    <div>
+      <input type="range" min="0" max="10" value="0"  oninput="showValue(this.value)" />
+        <!-- <span id="range">0</span> -->
+        <h2 id="range" style="text-align: center;">0 Sec</h2>
+    </div>
+    <h1><font color="white">---</font></h1>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  var socket = io();
+  
+  var data={"P": 0, "V": 0}
+
+  function toggle(button)
+{
+  if(document.getElementById("P").value=="OFF")
+  {
+   document.getElementById("P").value="ON";
+   button = "2"
+   data["P"]=button;
+    socket.emit('c2s',  JSON.stringify(data));
+  }
+
+  else if(document.getElementById("P").value=="ON")
+  {
+   document.getElementById("P").value="OFF";
+   button = "0"
+   data["P"]=button;
+    socket.emit('c2s',  JSON.stringify(data));
+}
+   console.log(button);
+}
+function showValue(newValue)
+{
+  document.getElementById("range").innerHTML=newValue+" Sec";
+  socket.emit('c2s_d',  newValue);
+  //socket.emit('s2c', { for: 'everyone' });
+}
+
+</script>
+
+</body>
+</html>
