@@ -16,7 +16,7 @@ void SendData(String c);     //Define Senddata Voide
 ////////////Setup//////////////////////////////////////////////////////////////
 const char* ssid     = "iot";            //Set ssid
 const char* password = "12345678";                    //Set Password
-const char* Server   = "10.5.50.87";           //set Server Domain or Server ip
+const char* Server   = "128.199.198.154";           //set Server Domain or Server ip
 ESP8266WiFiMulti WiFiMulti;
 
 
