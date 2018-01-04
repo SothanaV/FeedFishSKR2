@@ -117,9 +117,13 @@ input:checked + .slider:before
    button = "2"
    data["P"]=button;
   socket.emit('c2s',  JSON.stringify(data));
-  button = "0"
+    var delayInMilliseconds = 2000; //1 second
+    setTimeout(function() {
+      button = "0"
    data["P"]=button;
   socket.emit('c2s',  JSON.stringify(data));
+    }, delayInMilliseconds);
+  
   console.log(button);
 }
    
