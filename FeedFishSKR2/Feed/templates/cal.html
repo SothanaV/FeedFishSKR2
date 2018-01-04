@@ -20,33 +20,52 @@
 <div class="container">
   <div class="row">
     <div id="Control" class="col-sm-12">
-    <h1 style="text-align:center";> Control </h1>
+    <h1 style="text-align:center";> Calculate </h1>
     <br>
     <br>
-    
-      <h1>ปลาทอง</h1>
-      <input type="range" min="0" max="10" value="0"  oninput="showValue(this.value)" />
+    <div class="col-sm-6">
+        <h1 style="text-align: center;">ปลาทอง</h1>
+        <br>
+        <input type="range" min="0" max="10" value="0"  oninput="showValue(this.value)" />
+        <br>
+        <input type="value" value="0"  oninput="showValue(this.value)"  style="text-align: center;" />  
         <!-- <span id="range">0</span> -->
-        <h2 id="range" >0 ตัว <h3> อาหาร
-        <h3 id="volFood1">0 <h4>g
-        <p id="s1"></p>
+        <h2 id="range" >0 ตัว 
+        <h2>Food <span id="volFood1">0 <span>g</span>
+        
+    </div>
+    <div class="col-sm-6">
+        <h1 style="text-align: center;">ปลาคราฟ</h1>
+        <br>
+        <input type="range" min="0" max="10" value="0"  oninput="showValue2(this.value)" />
+        <br>
+        <input type="value" value="0"  oninput="showValue2(this.value)"  style="text-align: center;" />   
+        <!-- <span id="range">0</span> -->
+        <h2 id="range2" >0 ตัว 
+        <h2>Food <span id="volFood2">0 <span>g</span>
+        
+    </div>
+      
 
     
     <h1><font color="white">---</font></h1>
   </div>
 </div>
 <script type="text/javascript" charset="utf-8">
-  var socket = io();
   
-
 function showValue(newValue)
 {
-  document.getElementById("range").innerHTML=newValue+"ตัว";
-  document.getElementById("volFood1").innerHTML=(4*newValue)/100;
+  document.getElementById("range").innerHTML=newValue+" ตัว";
+  document.getElementById("volFood1").innerHTML=(4*newValue)/100+" g";
   var g = (4*newValue)/100;
-  document.getElementById("s1").innerHTML=(g-0.199)/2.411+"Sec";
-  socket.emit('c2s_d',  newValue);
-  //socket.emit('s2c', { for: 'everyone' });
+  //document.getElementById("sec1").innerHTML=(((4*newValue)/100)-0.199)/2.411+"Sec";
+}
+function showValue2(newValue)
+{
+  document.getElementById("range2").innerHTML=newValue+" ตัว";
+  document.getElementById("volFood2").innerHTML=(8*newValue)/100 +" g";
+  var g = (4*newValue)/100;
+  //document.getElementById("sec1").innerHTML=(((4*newValue)/100)-0.199)/2.411+"Sec";
 }
 
 </script>
