@@ -6,7 +6,7 @@
 //////////Define Pin///////////////////////////////////////////////////////////
 #define USE_SERIAL Serial
 /////////////////-----------------------------------//////////////////////////
-int solinoid = 4;             //setpin of solinoid at D2
+int s = 4;             //setpin of solinoid at D2
 int pump = 5;                 //set pint to D1 
 int Led_Red = 14;            //setpin of Led Red at D5
 int Led_Green = 12;            //setpin of Led Red at D6
@@ -16,7 +16,7 @@ void SendData(String c);     //Define Senddata Voide
 ////////////Setup//////////////////////////////////////////////////////////////
 const char* ssid     = "iot";            //Set ssid
 const char* password = "12345678";                    //Set Password
-const char* Server   = "188.166.223.204";           //set Server Domain or Server ip
+const char* Server   = "10.5.50.87";           //set Server Domain or Server ip
 ESP8266WiFiMulti WiFiMulti;
 
 
@@ -33,7 +33,7 @@ void setup()
     WiFi.begin(ssid, password);         //Set starting for Wifi
     Serial.println(WiFi.localIP());
     ////////////////////////////////SetuoPinMode//////////////////////////////////////////
-    pinMode(solinoid,OUTPUT);
+    pinMode(s,OUTPUT);
     pinMode(pump,OUTPUT);                
     pinMode(Led_Red, OUTPUT);
     pinMode(Led_Green, OUTPUT);
@@ -56,7 +56,7 @@ void SendData(String c)
     if((WiFiMulti.run() == WL_CONNECTED)) 
     {
         HTTPClient http;
-        String str = "http://" +String(Server)+":5005" +"/data/" +c;
+        String str = "http://" +String(Server)+":5000" +"/data/" +c;
         Serial.println(str);
         http.begin(str);
         int httpCode = http.GET();
@@ -71,33 +71,38 @@ void SendData(String c)
                 USE_SERIAL.println(payload);
                 if(payload.substring(0,1)=="1")
                 {
-                  digitalWrite(solinoid,HIGH);
+                  digitalWrite(s,HIGH);
                   digitalWrite(pump,LOW);
                 }
                 else
                 { 
-                  digitalWrite(solinoid,LOW);
+                  digitalWrite(s,LOW);
                   digitalWrite(pump,HIGH);
                   if(payload.substring(0,1)=="2")
                   { 
                     digitalWrite(pump,LOW);
                     int d = (payload.substring(2,3).toInt())*1000;
-                    digitalWrite(solinoid,HIGH);
+                    Serial.print("delaytime");
+                    Serial.println(d);
+                    digitalWrite(s,HIGH);
                     delay(d);
-                    digitalWrite(solinoid,LOW);
+                    digitalWrite(s,LOW);
                     digitalWrite(pump,LOW);
                   }
                 }
-                int Red = payload.substring(20,23).toInt();   //edit subString
-                int Green = payload.substring(24,27).toInt();
-                int Blue = payload.substring(28,31).toInt();
+                String Red = payload.substring(4,8);
+                String Green = payload.substring(8,12);
+                String Blue = payload.substring(12,17);
+                int v_red = Red.toInt();
+                int v_green = Green.toInt();
+                int v_blue = Blue.toInt();
+                analogWrite(Led_Red,v_red);
+                analogWrite(Led_Green,v_green);
+                analogWrite(Led_Blue,v_blue);
                 //Serial.println("Red%03d,Green%03d,Blue%03d"(Red,Green,Blue));
-                Serial.print("Red"); Serial.print(Red);
-                Serial.print("Green"); Serial.print(Green);
-                Serial.print("Blue"); Serial.println(Blue);
-                analogWrite(Led_Red,Red);
-                analogWrite(Led_Green,Green);
-                analogWrite(Led_Blue,Blue);
+                Serial.print("Red"); Serial.print(v_red);
+                Serial.print("Green"); Serial.print(v_green);
+                Serial.print("Blue"); Serial.println(v_blue);
                 
               }
               else
