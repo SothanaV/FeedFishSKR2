@@ -22,15 +22,16 @@ Red = 0
 Green = 0
 Blue = 0
 
-@app.route("/data/<c>")																			#Get data From Client(Wemos)
-def data(c):
+@app.route("/data/<t>/<h>")																			#Get data From Client(Wemos)
+def data(t,h):
 	global Red
 	global Green
 	global Blue
 	global Mode
 	global delay
-	print(c)
 	socketio.emit('s2c_status',"Online")
+	socketio.emit('s2c_humi',h)
+	socketio.emit('s2c_temp',t)
 	return ("%s,%s,%03d,%03d,%03d"%(Mode,delay,Red,Green,Blue))
 	#return(c)
 @socketio.on('c2s')																				#listen Data From Browser parth socketio "c2s" = cilent to server 
@@ -80,5 +81,8 @@ def ad3():
 @app.route("/switch")
 def switch():
 	return render_template('switch.html')
+@app.route("/status")
+def status():
+	return render_template('status.html')
  
 

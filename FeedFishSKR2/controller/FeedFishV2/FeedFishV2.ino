@@ -5,6 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //////////Define Pin///////////////////////////////////////////////////////////
 #define USE_SERIAL Serial
+int DHTPIN = 2;          //setpin of DHT at D4
+int DHTTYPE = DHT11;     //set Dht Type
 /////////////////-----------------------------------//////////////////////////
 int s = 4;             //setpin of solinoid at D2
 int pump = 5;                 //set pint to D1 
@@ -18,7 +20,7 @@ const char* ssid     = "iot";            //Set ssid
 const char* password = "12345678";                    //Set Password
 const char* Server   = "128.199.198.154";           //set Server Domain or Server ip
 ESP8266WiFiMulti WiFiMulti;
-
+DHT dht(DHTPIN, DHTTYPE);
 
 void setup() 
 {
@@ -32,6 +34,7 @@ void setup()
     WiFiMulti.addAP(ssid, password);    //Set SSID and Password (SSID, Password)
     WiFi.begin(ssid, password);         //Set starting for Wifi
     Serial.println(WiFi.localIP());
+    dht.begin();
     ////////////////////////////////SetuoPinMode//////////////////////////////////////////
     pinMode(s,OUTPUT);
     pinMode(pump,OUTPUT);                
@@ -45,18 +48,27 @@ void setup()
 
 void loop() 
 { 
+    float h = dht.readHumidity();      //Read Humidity
+    float t = dht.readTemperature();   //Read Temperature
     String c = "OK";
-    SendData(c);
+    if (isnan(t) || isnan(h)) 
+  {
+    Serial.println("FaiLed to read from DHT");
+  } 
+  else
+  {
+    SendData(t,h);
+  }
 }
 ///////////////////////SednData//////////////////////////////////////////////////////////////////
-void SendData(String c) 
+void SendData(float t,float h) 
 {
   
   // wait for WiFi connection
     if((WiFiMulti.run() == WL_CONNECTED)) 
     {
         HTTPClient http;
-        String str = "http://" +String(Server)+":5000" +"/data/" +c;
+        String str = "http://" +String(Server)+":5000" +"/data/"+t+"/"+h;
         Serial.println(str);
         http.begin(str);
         int httpCode = http.GET();
