@@ -93,10 +93,8 @@ input:checked + .slider:before
     <h1 style="text-align:center";> Control </h1>
     <div>
       <h2 style="text-align:center";> Feed 
-        <label class="switch">
            <!-- <input type="checkbox"  id="P" value="OFF" style="color:blue" onclick="toggle(this);"> -->
-           <button id="P" onclick="toggle(this);"></button>
-              <div class="slider round" ></div>
+           <button onclick="toggle(this);" id="P" value="click">Feed</button>
               
     </div>
     <br>
@@ -114,25 +112,18 @@ input:checked + .slider:before
   
   var data={"P": 0, "V": 0}
 
-  function toggle(button)
+  function toggle()
 {
-  if(document.getElementById("P").value=="OFF")
-  {
-   document.getElementById("P").value="ON";
    button = "2"
    data["P"]=button;
-    socket.emit('c2s',  JSON.stringify(data));
-  }
-
-  else if(document.getElementById("P").value=="ON")
-  {
-   document.getElementById("P").value="OFF";
-   button = "0"
+  socket.emit('c2s',  JSON.stringify(data));
+  button = "0"
    data["P"]=button;
-    socket.emit('c2s',  JSON.stringify(data));
+  socket.emit('c2s',  JSON.stringify(data));
+  console.log(button);
 }
-   console.log(button);
-}
+   
+
 function showValue(newValue)
 {
   document.getElementById("range").innerHTML=newValue+" Sec";
