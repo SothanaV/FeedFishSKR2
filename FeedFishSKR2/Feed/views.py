@@ -12,4 +12,7 @@ def vol_food(request,type,ifish):
 @login_required
 def home(request):
 	return render(request, 'first.html')
+@login_required
+def cal(request):
+	return render(request, 'cal.html')
 
