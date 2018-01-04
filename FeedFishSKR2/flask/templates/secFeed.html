@@ -12,6 +12,21 @@
 <script src="{{ url_for('static', filename='socket.io-1.2.0.js') }}"></script>
 </head>
 <style>
+.button {
+    background-color: #b7b7b7; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+
+.button5 {border-radius: 80%;}
 .switch 
 {
   position: relative;
@@ -85,6 +100,7 @@ input:checked + .slider:before
 
 <div class="jumbotron text-center">
   <h1>Control FishFeed</h1>  
+  <button class="button button5" id="status">OFF LINE</button>  
 </div>
   
 <div class="container">
@@ -134,6 +150,15 @@ function showValue(newValue)
   socket.emit('c2s_d',  newValue);
   //socket.emit('s2c', { for: 'everyone' });
 }
+socket.on('s2c_status', function(Sdata)
+    {
+    console.log(Sdata);
+    if (Sdata=="Online")
+      {
+        document.getElementById("status").style.backgroundColor = "Green";
+        document.getElementById("status").innerHTML="ON LINE";    
+      }
+    });
 
 </script>
 

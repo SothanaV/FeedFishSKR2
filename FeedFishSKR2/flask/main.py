@@ -30,6 +30,7 @@ def data(c):
 	global Mode
 	global delay
 	print(c)
+	socketio.emit('s2c_status',"Online")
 	return ("%s,%s,%03d,%03d,%03d"%(Mode,delay,Red,Green,Blue))
 	#return(c)
 @socketio.on('c2s')																				#listen Data From Browser parth socketio "c2s" = cilent to server 
@@ -58,6 +59,7 @@ def C2S_led(data):
 	Green = float(sdata['G'])
 	Blue = float(sdata['B'])
 	print("Red%03d,Green%03d,Blue%03d"%(Red,Green,Blue))
+
 @socketio.on('c2s_d')
 def delay(dt):
 	global delay
