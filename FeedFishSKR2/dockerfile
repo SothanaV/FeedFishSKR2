@@ -1,0 +1,10 @@
+FROM python:latest
+
+RUN apt-get update
+
+RUN mkdir /feed
+WORKDIR /feed
+COPY . /feed/
+
+RUN pip install -U pip
+RUN pip install -Ur requirements.txt

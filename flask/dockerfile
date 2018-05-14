@@ -1,0 +1,10 @@
+FROM python:latest
+
+RUN apt-get update
+
+RUN mkdir /feed_flask
+WORKDIR /feed_flask
+COPY . /feed_flask/
+
+RUN pip install -U pip
+RUN pip install -Ur requirements.txt

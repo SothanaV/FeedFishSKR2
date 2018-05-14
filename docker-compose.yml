@@ -1,0 +1,22 @@
+version: '2'
+services:
+  feed_flask:
+    container_name: feed_flask
+    build: ./flask
+    restart: always
+    ports:
+        - "8001:5000"
+    volumes:
+      - ./feed:/flask
+    command: sh run.sh
+  feed:
+    container_name: feed
+    build: ./FeedFishSKR2
+    restart: always
+    ports:
+        - "8002:8000"
+    volumes:
+      - ./feed:/FeedFishSKR2
+    command: sh runD.sh
+    depends_on:
+      - feed_flask
